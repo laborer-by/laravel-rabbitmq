@@ -1,0 +1,36 @@
+{
+  "name": "laborer-by/laravel-rabbitmq",
+  "keywords": ["rabbitmq", "laravel"],
+  "description": "RabbitMQ driver for Laravel.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Laborer By",
+      "email": "junjie.3533@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "ext-json": "*",
+    "php-amqplib/php-amqplib": "2.10.0",
+    "godruoyi/php-snowflake": "1.0.11"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Laborer\\LaravelRabbitMQ\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Laborer\\LaravelRabbitMQ\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test:unit": "@php vendor/bin/phpunit"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
