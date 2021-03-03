@@ -1,8 +1,8 @@
 # laravel-rabbitmq
-[![Source](https://img.shields.io/badge/source-caffeinated/modules-blue.svg?style=flat-square)](https://github.com/caffeinated/modules)
-[![Latest Stable Version](https://poser.pugx.org/caffeinated/modules/v/stable?format=flat-square)]()
+[![Source](https://img.shields.io/badge/source-laborer-by/laravel-rabbitmq-blue.svg?style=flat-square)](https://github.com/laborer-by/laravel-rabbitmq)
+[![Latest Stable Version](https://poser.pugx.org/laborer-by/laravel-rabbitmq/v/stable?format=flat-square)](https://packagist.org/packages/laborer-by/laravel-rabbitmq)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
-[![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/modules.svg?style=flat-square)]()
+[![Total Downloads](https://img.shields.io/packagist/dt/laborer-by/laravel-rabbitmq.svg?style=flat-square)](https://packagist.org/packages/laborer-by/laravel-rabbitmq)
 
 RabbitMQ driver for Laravel.
 
