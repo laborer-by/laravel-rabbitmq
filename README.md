@@ -1,4 +1,5 @@
 # laravel-rabbitmq
+
 [![Latest Stable Version](https://poser.pugx.org/laborer-by/laravel-rabbitmq/v)](//packagist.org/packages/laborer-by/laravel-rabbitmq) [![Total Downloads](https://poser.pugx.org/laborer-by/laravel-rabbitmq/downloads)](//packagist.org/packages/laborer-by/laravel-rabbitmq) [![Latest Unstable Version](https://poser.pugx.org/laborer-by/laravel-rabbitmq/v/unstable)](//packagist.org/packages/laborer-by/laravel-rabbitmq) [![License](https://poser.pugx.org/laborer-by/laravel-rabbitmq/license)](//packagist.org/packages/laborer-by/laravel-rabbitmq)
 
 RabbitMQ driver for Laravel.
