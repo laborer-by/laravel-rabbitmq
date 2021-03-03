@@ -40,6 +40,16 @@ CREATE TABLE `tmp_rabbitmq_msg` (
 
 ### Config
 
+Register `LaravelRabbitMQServiceProvider` via config/app.php:
+
+```
+'providers' => [
+    // others ...
+
+    Laborer\LaravelRabbitMQ\LaravelRabbitMQServiceProvider::class,
+],
+```
+
 To publish the config file, run the following:
 
 ```

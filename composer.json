@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "php": "^7.0",
+    "php": ">=7.0",
+    "laravel/framework": ">=5.2.0",
     "ext-json": "*",
     "php-amqplib/php-amqplib": "2.10.0",
     "godruoyi/php-snowflake": "1.0.11"
