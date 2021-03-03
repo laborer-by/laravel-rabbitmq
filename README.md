@@ -7,13 +7,13 @@ RabbitMQ driver for Laravel.
 
 ## Installation
 
-1. Install this package via composer using:
+(1) Install this package via composer using:
 
 ```bash
 composer require laborer-by/laravel-rabbitmq
 ```
 
-2. Add these properties to `.env` with proper values:
+(2) Add these properties to `.env` with proper values:
 
 ```
 ;RABBITMQ dev
@@ -24,7 +24,7 @@ RABBITMQ_PASSWORD=guest
 RABBITMQ_VHOST=oc
 ```
 
-3. Create a table:
+(3) Create a table:
 
 ```sql
 CREATE TABLE `tmp_rabbitmq_msg` (
