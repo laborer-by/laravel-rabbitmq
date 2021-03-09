@@ -24,6 +24,7 @@ class RabbitMQService
      * 验证路由键是否有效
      * @param $routing_key
      * @return bool
+     * @throws Exception
      */
     public function validateRoutingKey($routing_key)
     {
@@ -34,7 +35,7 @@ class RabbitMQService
 
     /**
      * get the value of a routing_key
-     * @param $msg_type
+     * @param $routing_key
      * @return mixed
      */
     public function getRoutingValue($routing_key)

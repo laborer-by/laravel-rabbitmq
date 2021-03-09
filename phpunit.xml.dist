@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         syntaxCheck="true"
+         verbose="true"
+>
+    <testsuites>
+        <testsuite name="Package Test Suite">
+            <directory suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="SESSION_DOMAIN" value="google.com"/>
+
+        <env name="RABBITMQ_HOST" value="127.0.0.1"/>
+        <env name="RABBITMQ_PORT" value="5672"/>
+        <env name="RABBITMQ_USER" value="guest"/>
+        <env name="RABBITMQ_PASSWORD" value="guest"/>
+        <env name="RABBITMQ_VHOST" value="oc"/>
+
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_DATABASE" value="test"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="root"/>
+    </php>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="build/coverage" charset="UTF-8" yui="true" highlight="true"/>
+    </logging>
+</phpunit>

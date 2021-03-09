@@ -60,3 +60,17 @@ php artisan vendor:publish --provider="Laborer\LaravelRabbitMQ\LaravelRabbitMQSe
 ## Changelog
 
 You will find a complete changelog history within the [CHANGELOG](CHANGELOG.md) file.
+
+## Testing
+
+Run tests with PHPUnit:
+
+```bash
+vendor/bin/phpunit
+```
+
+OR
+
+```bash
+composer test
+```

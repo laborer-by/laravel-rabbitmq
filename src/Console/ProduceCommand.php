@@ -84,9 +84,9 @@ class ProduceCommand extends Command
         }
 
         /** Demo
-        \Artisan::call('mq:send', [
+        \Artisan::call('rabbitmq:produce', [
             'routing-key' => 'order.create',
-            'msg_data'    => ['order_id'=>1001,'price'=>20.55,'remark'=>'测试数据'],
+            'msg-data'    => ['order_id'=>1001,'price'=>20.55,'remark'=>'测试数据'],
         ]);
          **/
     }

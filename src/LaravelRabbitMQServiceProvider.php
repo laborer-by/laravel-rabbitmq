@@ -44,6 +44,7 @@ class LaravelRabbitMQServiceProvider extends ServiceProvider
             DLXDeclareCommand::class,
         ]);
 
+        // Overwrite the following command if necessary
         $this->commands([
             ProduceCommand::class,
             ConsumeCommand::class,

@@ -9,16 +9,16 @@ return [
     'port'     => env('RABBITMQ_PORT', 5672),
     'user'     => env('RABBITMQ_USER', 'guest'),
     'password' => env('RABBITMQ_PASSWORD', 'guest'),
-    'vhost'    => env('RABBITMQ_VHOST'),  // default vhost
+    'vhost'    => env('RABBITMQ_VHOST', 'oc'),  // default vhost
 
     'connections' => [
         // key = vhost
         env('RABBITMQ_VHOST') => [
             'options' => [
                 'queue'                => env('SESSION_DOMAIN') . '.queue', // default queue
-                'exchange'             => env('RABBITMQ_VHOST') . '.exchange', // default exchange
+                'exchange'             => env('RABBITMQ_VHOST'). '.exchange', // default exchange
                 'heartbeat'            => 120, // The number of seconds the heartbeat check
-                'dlx_queue'            => env('RABBITMQ_VHOST') . '.dlx.queue',
+                'dlx_queue'            => env('RABBITMQ_VHOST'). '.dlx.queue',
                 'dlx_exchange'         => env('RABBITMQ_VHOST') . '.dlx.exchange',
             ]
         ],

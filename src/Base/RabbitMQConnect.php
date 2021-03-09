@@ -75,16 +75,17 @@ class RabbitMQConnect
     }
 
     /**
-     * Declares exchange 声明创建交换机（幂等）
-     * @param $exchange 交换机的名称
+     * 声明创建交换机（幂等）
+     * @param string $exchange
      * @param string $exchange_type
      * @param bool $durable
      * @param bool $auto_delete
+     * @return mixed|null
      */
     public function exchange_declare($exchange='', $exchange_type='topic', $durable=true, $auto_delete=false)
     {
         $exchange = $exchange ? : $this->exchange;
-        $this->channel->exchange_declare($exchange, $exchange_type, false, true, false);
+        return $this->channel->exchange_declare($exchange, $exchange_type, false, true, false);
     }
 
     /**
@@ -99,21 +100,13 @@ class RabbitMQConnect
     }
 
     /**
-     * 单系统单队列转换为单系统多队列
-     * @param $multi_service_queue
-     */
-    public function transform_multi_queue($multi_service_queue)
-    {
-        $this->queue = $this->queue.'.'.$multi_service_queue;
-    }
-
-    /**
      * Declares queue, creates if needed
-     * queue_declare() 方法是幂等的，即只有当指定的 queue 不存在时才会创建
+     * 方法是幂等的，即只有当指定的 queue 不存在时才会创建
      * @param string $queue
      * @param bool $durable
      * @param bool $auto_delete
      * @param bool $enable_dlx 是否开启死信功能
+     * @return mixed|null
      */
     public function queue_declare($queue='', $durable=true, $auto_delete=false, $enable_dlx=true)
     {
@@ -125,22 +118,25 @@ class RabbitMQConnect
             $arguments = new AMQPTable($arguments);
 
             // 声明创建业务队列，同时指定死信交换机
-            $this->channel->queue_declare($this->queue, false, true, false, false, false, $arguments);
+            return $this->channel->queue_declare($queue, false, true, false, false, false, $arguments);
         } else {
-            $this->channel->queue_declare($this->queue, false, true, false, false, false);
+            return $this->channel->queue_declare($queue, false, true, false, false, false);
         }
     }
 
     /**
      * Bind queue to an exchange
      * 绑定业务队列到业务交换机，队列的 binding_key 可以有多个
+     * @param string $queue
+     * @param string $exchange
      * @param $binding_key
+     * @return mixed|null
      */
     public function queue_bind($queue='', $exchange='', $binding_key)
     {
         $queue = $queue ? : $this->queue;
         $exchange = $exchange ? : $this->exchange;
-        $this->channel->queue_bind($queue, $exchange, $binding_key);
+        return $this->channel->queue_bind($queue, $exchange, $binding_key);
     }
 
     /**
@@ -225,7 +221,7 @@ class RabbitMQConnect
 
         // 将消息发送给交换机
         $this->channel->basic_publish($msg, $this->exchange, $routing_key);
-        return $msg_id;
+        return $payload['msg_id'];
     }
 
     /**
