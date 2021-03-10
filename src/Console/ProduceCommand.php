@@ -4,7 +4,6 @@ namespace Laborer\LaravelRabbitMQ\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 use Laborer\LaravelRabbitMQ\Base\RabbitMQConnect;
 use Laborer\LaravelRabbitMQ\Base\RabbitMQService;
 
@@ -61,7 +60,7 @@ class ProduceCommand extends Command
             $service->validateRoutingKey($routing_key);
 
             // 如果是进行测试，就用测试数据
-            if ((bool) $this->option('test')) $msg_data = ['order_id'=>1001,'price'=>20.55,'remark'=>'测试数据'];
+            if ((bool) $this->option('test')) $msg_data = ['order_id'=>mt_rand(1000, 9999),'price'=>mt_rand(10, 99),'remark'=>'测试数据'];
             if (!$msg_data) throw new Exception('msg-data is required');
             if (!is_array($msg_data)) throw new Exception('msg-data must be array');
 

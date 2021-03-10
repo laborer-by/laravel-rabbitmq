@@ -2,7 +2,6 @@
 
 namespace Laborer\LaravelRabbitMQ;
 
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
 use Laborer\LaravelRabbitMQ\Console\DLXDeclareCommand;
 use Laborer\LaravelRabbitMQ\Console\ExchangeDeclareCommand;
@@ -12,6 +11,7 @@ use Laborer\LaravelRabbitMQ\Console\QueueDeclareCommand;
 use Laborer\LaravelRabbitMQ\Console\QueueDeleteCommand;
 use Laborer\LaravelRabbitMQ\Console\ProduceCommand;
 use Laborer\LaravelRabbitMQ\Console\ConsumeCommand;
+use Laborer\LaravelRabbitMQ\Console\RequeueCommand;
 
 class LaravelRabbitMQServiceProvider extends ServiceProvider
 {
@@ -42,6 +42,7 @@ class LaravelRabbitMQServiceProvider extends ServiceProvider
             QueueBindCommand::class,
             QueueDeleteCommand::class,
             DLXDeclareCommand::class,
+            RequeueCommand::class,
         ]);
 
         // Overwrite the following command if necessary

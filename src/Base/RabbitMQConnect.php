@@ -25,12 +25,9 @@ class RabbitMQConnect
     protected $delay_queue;
 
     /**
-     * Establish a queue connection.
-     *
-     * @param array $config
-     *
-     * @return RabbitMQQueue
-     * @throws Exception
+     * Establish a connection and channel
+     * RabbitMQConnect constructor.
+     * @param $vhost
      */
     public function __construct($vhost)
     {
@@ -118,9 +115,9 @@ class RabbitMQConnect
             $arguments = new AMQPTable($arguments);
 
             // 声明创建业务队列，同时指定死信交换机
-            return $this->channel->queue_declare($queue, false, true, false, false, false, $arguments);
+            return $this->channel->queue_declare($queue, false, $durable, false, $auto_delete, false, $arguments);
         } else {
-            return $this->channel->queue_declare($queue, false, true, false, false, false);
+            return $this->channel->queue_declare($queue, false, $durable, false, $auto_delete, false);
         }
     }
 
@@ -199,11 +196,11 @@ class RabbitMQConnect
 
     /**
      * 发布（生产）消息，将消息发送给交换机
-     * @param array $payload
+     * @param $payload
      * @param string $routing_key
      * @return mixed
      */
-    public function basic_publish(array $payload = [], $routing_key = '', $attempts=0)
+    public function basic_publish($payload = [], $routing_key = '', $attempts=0)
     {
         $body = json_encode($payload, JSON_UNESCAPED_UNICODE);
         $properties = [
@@ -277,15 +274,14 @@ class RabbitMQConnect
 
     /**
      * 发布延迟消息，将消息发送给交换机，并将消息记录到数据表
+     * // todo 延迟消息相关的功能需要优化调试
      * @param $msg_type
-     * @param $msg_name
-     * @param $msg_data
+     * @param $payload
      * @param $expiration 有效期（延迟时间），单位：秒
-     * @param $msg_id
-     * @return mixed
-     * @throws \Exception
+     * @param int $msg_id
+     * @return int
      */
-    public function basic_publish_delay($msg_type, $payload, $msg_data, $expiration, $msg_id=0)
+    public function basic_publish_delay($msg_type, $payload, $expiration, $msg_id=0)
     {
         if ($expiration<1) throw new Exception('过期时间必须大于0');
 

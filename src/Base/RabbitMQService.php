@@ -7,12 +7,12 @@ use Godruoyi\Snowflake\Snowflake;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
-use PhpAmqpLib\Wire\AMQPTable;
 
 class RabbitMQService
 {
     protected $channel;
     protected $lock_prefix = 'rabbitmq:lock:';
+    public $rabbitmq_msg_table = 'tmp_rabbitmq_msg';
 
     public function __construct(RabbitMQConnect $channel)
     {
@@ -34,7 +34,7 @@ class RabbitMQService
     }
 
     /**
-     * get the value of a routing_key
+     * Get the value of a routing_key
      * @param $routing_key
      * @return mixed
      */
@@ -74,7 +74,7 @@ class RabbitMQService
             'extra_data'  => $extra_data ?: '',
             'created_at'  => date('Y-m-d H:i:s')
         ];
-        DB::table('tmp_rabbitmq_msg')->insert($payload);
+        DB::table($this->rabbitmq_msg_table)->insert($payload);
         return $payload;
     }
 
@@ -100,7 +100,7 @@ class RabbitMQService
             $this->channel->close();
 
             return $payload['msg_id'];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $error = sprintf('[msg_id:%s,routing_key:%s] ' . $e->getMessage(), $payload['msg_id'], $routing_key);
             if ($retry--) {
                 sleep($sleep); // 阻塞几秒后，再重试
@@ -109,6 +109,20 @@ class RabbitMQService
                 throw new Exception($error);
             }
         }
+    }
+
+    /**
+     * Requeue a message.
+     * @param $payload
+     * @param $routing_key
+     * @throws Exception
+     */
+    public function requeueMsg($payload, $routing_key)
+    {
+        $this->channel->basic_publish($payload, $routing_key);
+
+        // 最后，关闭 channel 和 connection
+        $this->channel->close();
     }
 
     public function checkLock($msg_id)
@@ -129,6 +143,7 @@ class RabbitMQService
 
     /**
      * 消息处理程序
+     * // todo ... 这个函数需要被重写
      * @param $body
      * @param int $retry
      * @param int $sleep
@@ -142,22 +157,23 @@ class RabbitMQService
             $msg_data = $body['msg_data'];
             $msg_data = json_decode($msg_data, true);
 
-            switch ($routing_key) {
-                case 'order.create': // todo
+            switch ($routing_key) {  // 根据 routing_key 区分场景来消费
+                case 'order.create': // todo ... 具体的消费处理逻辑
+                    var_dump($msg_data);
                     break;
 
                 default:
-                    throw new \Exception('msg_type异常');
+                    throw new \Exception('Routing_key is invalid!');
                     break;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $error = sprintf('[msg_id:%s,routing_key:%s] ' . $e->getMessage(), $msg_id, $routing_key);
             if ($retry--) {
                 echo $error.PHP_EOL;
                 sleep($sleep); // 阻塞几秒后，再重试
                 self::consumeHandler($body, $retry, $sleep);
             } else {
-                throw new \Exception($error);
+                throw new Exception($error);
             }
         }
     }
