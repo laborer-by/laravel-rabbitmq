@@ -48,10 +48,8 @@ class RequeueCommand extends Command
     public function handle()
     {
         try {
-            $vhost = $this->argument('vhost');
+            $vhost = $this->option('vhost');
             if (!$vhost) $vhost = config('rabbitmq.vhost');
-
-            $service = new RabbitMQService(new RabbitMQConnect($vhost));
 
             $msg_ids = $this->argument('msg-ids');
             $count = count($msg_ids);
@@ -60,20 +58,22 @@ class RequeueCommand extends Command
             $this->output->progressStart($count);
             foreach ($msg_ids as $msg_id)
             {
+                $this->output->progressAdvance();
                 try {
-                    $v = DB::table($service->rabbitmq_msg_table)->where('id', $msg_id)->first();
+                    $service = new RabbitMQService(new RabbitMQConnect($vhost));
+
+                    $v = DB::table($service->rabbitmq_msg_table)->where('msg_id', $msg_id)->first();
                     if(!$v) throw new \Exception('No records');
 
                     $routing_key = $v->routing_key;
                     $service->validateRoutingKey($routing_key);
-                    $service->requeueMsg($v, $routing_key);
+                    $service->requeueMsg(json_decode(json_encode($v, JSON_UNESCAPED_UNICODE), true ), $routing_key);
 
                     $count_success++;
                 } catch (Exception $e) {
                     $error = sprintf('[msg_id:%s] ' . $e->getMessage(), $msg_id);
                     $this->error($error);
                 }
-                $this->output->progressAdvance();
             }
             $this->output->progressFinish();
 

@@ -196,11 +196,12 @@ class RabbitMQConnect
 
     /**
      * 发布（生产）消息，将消息发送给交换机
-     * @param $payload
+     * @param array $payload
      * @param string $routing_key
+     * @param int $attempts
      * @return mixed
      */
-    public function basic_publish($payload = [], $routing_key = '', $attempts=0)
+    public function basic_publish(array $payload = [], $routing_key = '', $attempts=0)
     {
         $body = json_encode($payload, JSON_UNESCAPED_UNICODE);
         $properties = [
